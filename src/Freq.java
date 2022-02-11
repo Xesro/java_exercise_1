@@ -1,9 +1,6 @@
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Freq implements Command {
@@ -32,15 +29,17 @@ public class Freq implements Command {
         file = file.replaceAll("[,;:.!?]", " ");
         file = file.toLowerCase(Locale.ROOT);
         String[] words = file.split(" ");
-        Map<String, Long> counts = Arrays.
-                stream(words).
-                filter(e -> !e.isBlank()).
-                collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-        Object[] res = counts.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue()).map(Map.Entry::getKey).toArray();
 
-        System.out.println(res[res.length - 1] + " " + res[res.length - 2] + " " + res[res.length - 3]);
+        Map<String, Long> counts = Arrays
+                .stream(words)
+                .filter(e -> !e.isBlank())
+                .collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+
+        List<Map.Entry<String, Long>> res = new ArrayList<>(counts.entrySet());
+
+        res.sort(Map.Entry.<String, Long>comparingByValue().reversed());
+
+        System.out.println(res.get(0) + " " + res.get(1) + " " + res.get(2));
 
         return false;
     }

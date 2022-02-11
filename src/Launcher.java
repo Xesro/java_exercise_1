@@ -15,7 +15,7 @@ public class Launcher {
 
         int i = 0;
 
-        while (!command.equals("quit")) {
+        while (true) {
 
             for (i = 0; i < commands.size(); i++){
                 if (commands.get(i).name().equals(command))
